@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - Snaily Hitter</title>
+</head>
+
+<body>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: #000;
+    }
+
+    section {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2px;
+      flex-wrap: wrap;
+      overflow: hidden;
+    }
+
+    section::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(#000, #0f0, #000);
+      animation: animate 5s linear infinite;
+    }
+
+    @keyframes animate {
+      0% {
+        transform: translateY(-100%);
+      }
+
+      100% {
+        transform: translateY(100%);
+      }
+    }
+
+    section span {
+      position: relative;
+      display: block;
+      width: calc(6.25vw - 2px);
+      height: calc(6.25vw - 2px);
+      background: #181818;
+      z-index: 2;
+      transition: 1.5s;
+    }
+
+    section span:hover {
+      background: #0f0;
+      transition: 0s;
+    }
+
+    .console-box {
+      position: absolute;
+      font-family: monospace;
+      background: #222;
+
+      top: 10px;
+      left: 10px;
+      width: 400px;
+      max-height: 300px;
+      z-index: 1000;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 255, 0, 9);
+    }
+
+    section .settings {
+      position: absolute;
+      width: 400px;
+      background: #222;
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0, 255, 0, 9);
+    }
+
+    section .settings .content {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    section .settings .content h2 {
+      font-size: 2em;
+      color: #0f0;
+      text-transform: uppercase;
+    }
+
+    section .settings .content .form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    section .settings .content .form .inputBox {
+      position: relative;
+      width: 100%;
+    }
+
+
+    section .settings .content .form .inputBox input {
+      position: relative;
+      width: 100%;
+      background: #333;
+      border: none;
+      outline: none;
+      padding: 25px 10px 7.5px;
+      border-radius: 4px;
+      color: #fff;
+      font-weight: 500;
+      font-size: 1em;
+    }
+
+    .settings .content .form .inputBox input.blurred {
+      filter: blur(5px);
+      /* Apply initial blur effect */
+      transition: filter 0.5s;
+      /* Smooth transition for the blur effect */
+    }
+
+    section .settings .content .form .inputBox i {
+      position: absolute;
+      left: 0;
+      padding: 15px 10px;
+      font-style: normal;
+      color: #aaa;
+      transition: 0.5s;
+      pointer-events: none;
+    }
+
+    .settings .content .form .inputBox input:focus~i,
+    .settings .content .form .inputBox input:valid~i {
+      transform: translateY(-7.5px);
+      font-size: 0.8em;
+      color: #fff;
+      filter: blur(0);
+      /* Remove blur effect on hover/focus */
+    }
+
+    .settings .content .form .links {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .settings .content .form .links a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .settings .content .form .links a:nth-child(2) {
+      color: #0f0;
+      font-weight: 600;
+    }
+
+    .settings .content .form .inputBox input[type="submit"] {
+      padding: 10px;
+      background: #0f0;
+      color: #000;
+      font-weight: 600;
+      font-size: 1.35em;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:active {
+      opacity: 0.6;
+    }
+
+    @media (max-width: 900px) {
+      section span {
+        width: calc(10vw - 2px);
+        height: calc(10vw - 2px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      section span {
+        width: calc(20vw - 2px);
+        height: calc(20vw - 2px);
+      }
+    }
+  </style>
+
+
+  <div class="console-box" id="consoleBox"></div>
+  </div>
+  <section><span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> 
+    <div class="settings">
+      <div class="content">
+        <center>
+          <h2>Settings SNAILYHITTER</h2>
+        </center>
+        <form class="form" id="settingsForm">
+          <div class="inputBox">
+            <input type="text" class="input-field blurred" id="proxy" placeholder="" value="PROXYVAL" required="">
+            <i>Proxy</i>
+          </div>
+          <div class="inputBox">
+            <input type="text" class="input-field blurred" id="bin" placeholder="" value="BINVAL" required="">
+            <i>Bin</i>
+          </div>
+          <div class="inputBox">
+            <input type="submit" class="submit-button" value="Save">
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  <script>
+    let currentLogs = [];
+
+    async function updateLogs() {
+      try {
+        const response = await fetch('/logs');
+        const logs = await response.json();
+
+        if (JSON.stringify(logs) !== JSON.stringify(currentLogs)) {
+          consoleBox.innerHTML = '';
+
+          logs.forEach((log, index) => {
+            let firstColon = log.indexOf(':');
+            let secondColon = log.indexOf(':', firstColon + 1);
+            if (firstColon !== -1 && secondColon !== -1) {
+              let color = log.substring(0, firstColon);
+              let glow = log.substring(firstColon + 1, secondColon);
+              let text = log.substring(secondColon + 1);
+              let logElement = document.createElement("div");
+              logElement.style.color = color;
+              logElement.style.textShadow = `${glow} 0px 0px 15px`;
+              logElement.textContent = text;
+              consoleBox.appendChild(logElement);
+            } else {
+              consoleBox.innerHTML += `${log}<br/>`;
+            }
+          });
+
+          currentLogs = logs;
+        }
+      } catch (error) {
+        console.error('Failed to fetch logs:', error);
+      }
+    }
+
+    updateLogs()
+
+    setInterval(updateLogs, 1000);
+
+    document.getElementById("settingsForm").addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const proxy = document.getElementById("proxy").value;
+      const bin = document.getElementById("bin").value;
+      const settings = { proxy: proxy, bin: bin };
+
+      const response = await fetch("/saveSettings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(settings),
+      });
+
+      const responseBody = await response.text();
+
+      if (responseBody === "OK") {
+        document.location.reload();
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const proxyInput = document.getElementById('proxy');
+      const binInput = document.getElementById('bin');
+
+      // Dodaj obsługę zdarzeń dla najechania myszką
+      proxyInput.addEventListener('mouseover', function () {
+        this.classList.remove('blurred');
+      });
+
+      proxyInput.addEventListener('mouseout', function () {
+        this.classList.add('blurred');
+      });
+
+      binInput.addEventListener('mouseover', function () {
+        this.classList.remove('blurred');
+      });
+
+      binInput.addEventListener('mouseout', function () {
+        this.classList.add('blurred');
+      });
+    });
+
+  </script>
+
+
+</body>
+
+</html>
