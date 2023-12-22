@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>mohio panel</title>
+	<script type="text/javascript">
+		if (!localStorage.getItem('token')) {
+			window.location.href = '/login';
+		}
+	</script>
+	<style>
+		body {
+			background-color: black;
+			font-family: Arial, sans-serif;
+			color: white;
+		}
+
+		.container {
+			width: 300px;
+			padding: 16px;
+			background-color: black;
+			margin: 0 auto;
+			margin-top: 100px;
+			border: 1px solid #fff;
+		}
+
+		input[type=text],
+		input[type=password] {
+			width: 100%;
+			padding: 12px 20px;
+			margin: 8px 0;
+			display: inline-block;
+			border: 1px solid #ccc;
+			box-sizing: border-box;
+			background-color: #333;
+			color: white;
+		}
+
+		input[type=submit] {
+			background-color: #4CAF50;
+			color: white;
+			padding: 14px 20px;
+			margin: 8px 0;
+			border: none;
+			cursor: pointer;
+			width: 100%;
+		}
+		
+		.invite {
+			margin: 10px 0;
+			padding: 10px;
+			border: 1px solid #ccc;
+			background-color: #333;
+			color: white;
+		}
+
+		.instructions {
+			color: red;
+			position: absolute;
+			top: 10px;
+			left: 10px;
+			line-height: 0; /* adjust this value to change the distance between lines */
+		}
+	</style>
+</head>
+
+<body>
+	<div id="error" style="display: none; color: white; background-color: red; margin: 30px auto; width: 450px; text-align: center; padding: 5px;"></div>
+
+	<div class="instructions">
+		<h1>MOHIO INSTRUCTIONS</h1>
+		<br>
+		<br>
+		<p style="display:inline-block">1. Install certificate as a certificate authority, certificate can be found</p>
+		<a href="/ca-cert.pem" style="display:inline-block">here</a>
+		<p style="">2. If you are on a PC browser, you can download the OxyLabs proxy extension to set</p>
+		<p style="">   the following proxy, or else you are going to have to set it as a system proxy,</p>
+		<p style="">   the details of the proxy are:</p>
+		<p style="">PROXY IP: p.mohio.vip</p>
+		<p style="">PROXY PORT: 1337</p>
+		<p style="">PROXY SCHEME: HTTP</p>
+		<br>
+		<p style="">3. Go to the site https://mohio and login</p>
+		<br>
+		<p style="">4. Put your proxy and the BIN and enjoy!</p>
+		<h1>MOHIO TIPS</h1>
+		<br>
+		<br>
+		<p style="">1. Use a browser you don't use as your main, for example if you use chrome, use edge for mohio</p>
+		<br>
+		<p style="">2. If you cannot login, it means your HWID changed, please contact @Yonai11 or @Donnerss on telegram</p>
+		<br>
+		<p style="">3. If you constantly get generic_decline, please either clear data or use incognito mode.</p>
+		<br>
+	</div>
+
+	<div class="container">
+		<h2 style="text-align: center;">Invitations</h2>
+		<div id="invites"></div>
+	</div>
+
+	<script>
+		async function fetchInvites() {
+			try {
+				const response = await fetch('/api/get_invites', {
+					headers: {
+						'Authorization': 'Bearer ' + localStorage.getItem('token')
+					}
+				});
+				const data = await response.json();
+
+				const invitesContainer = document.querySelector('#invites');
+
+				for (let invite in data) {
+					const inviteElement = document.createElement('div');
+					inviteElement.classList.add('invite');
+					inviteElement.innerHTML = `
+						<h3>${invite}</h3>
+						<p>Is Used: ${data[invite].is_used}</p>
+						<p>Who Used: ${data[invite].who_used || 'Not used yet'}</p>
+					`;
+					invitesContainer.append(inviteElement);
+				}
+			} catch (error) {
+				document.querySelector('#error').style.display = 'block';
+				document.querySelector('#error').innerText = 'Error fetching invites.';
+			}
+		}
+
+		fetchInvites();
+	</script>
+</body>
+
+</html>

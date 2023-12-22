@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Success - Options Page</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				background-color: #212121;
+				position: relative;
+			}
+
+			.console-box {
+				position: absolute;
+				top: 10px;
+				left: 10px;
+				width: 400px;
+				height: calc(1.2em * 10); /* Assuming line-height to be 1.2 */
+				background-color: #303030;
+				color: #ffffff;
+				padding: 5px;
+				border-radius: 5px;
+				font-family: monospace;
+				white-space: pre-wrap;
+				overflow: hidden;
+			}
+
+			.container {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100vh;
+			}
+
+			.login-form {
+				width: 300px;
+				background-color: #303030;
+				padding: 30px;
+				border-radius: 10px;
+				box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.1);
+			}
+
+			.login-form h2 {
+				text-align: center;
+				margin-bottom: 20px;
+				color: #ffffff;
+			}
+
+			.input-field {
+				width: calc(100% - 20px); /* Subtract padding */
+				padding: 10px;
+				margin-bottom: 20px;
+				border: 1px solid #ccc;
+				border-radius: 5px;
+				background-color: #424242;
+				color: #ffffff;
+			}
+
+			.submit-button {
+				width: 100%;
+				padding: 10px;
+				background-color: #3498db;
+				border: none;
+				border-radius: 5px;
+				color: #ffffff;
+				font-size: 16px;
+				cursor: pointer;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="console-box" id="consoleBox"></div>
+		<div class="container">
+			<form class="login-form" id="settingsForm">
+				<h2>Settings</h2>
+				<input type="text" class="input-field" id="proxy" placeholder="Proxy" value="PROXYVAL"/>
+				<input type="text" class="input-field" id="bin" placeholder="BIN" value="BINVAL"/>
+				<button type="submit" class="submit-button">Save</button>
+			</form>
+		</div>
+			<script>
+				let currentLogs = [];
+
+				async function updateLogs() {
+					try {
+						const response = await fetch('/logs');
+						const logs = await response.json();
+
+						if (JSON.stringify(logs) !== JSON.stringify(currentLogs)) {
+							consoleBox.innerHTML = '';
+
+							logs.forEach((log, index) => {
+								let firstColon = log.indexOf(':');
+								let secondColon = log.indexOf(':', firstColon + 1);
+								if (firstColon !== -1 && secondColon !== -1) {
+									let color = log.substring(0, firstColon);
+									let glow = log.substring(firstColon + 1, secondColon);
+									let text = log.substring(secondColon + 1);
+									let logElement = document.createElement("div");
+									logElement.style.color = color;
+									logElement.style.textShadow = `${glow} 0px 0px 15px`;
+									logElement.textContent = text;
+									consoleBox.appendChild(logElement);
+								} else {
+									consoleBox.innerHTML += `${log}<br/>`;
+								}
+							});
+
+							currentLogs = logs;
+						}
+					} catch (error) {
+						console.error('Failed to fetch logs:', error);
+					}
+				}
+
+				updateLogs()
+
+				setInterval(updateLogs, 1000);
+
+				document.getElementById("settingsForm").addEventListener("submit", async function (event) {
+						event.preventDefault();
+						const proxy = document.getElementById("proxy").value;
+						const bin = document.getElementById("bin").value;
+						const settings = { proxy: proxy, bin: bin };
+
+						const response = await fetch("/saveSettings", {
+								method: "POST",
+								headers: {
+										"Content-Type": "application/json",
+								},
+								body: JSON.stringify(settings),
+						});
+
+						const responseBody = await response.text();
+
+						if (responseBody === "OK") {
+								document.location.reload();
+						}
+				});
+		</script>
+	</body>
+</html>
