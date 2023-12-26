@@ -34,7 +34,7 @@ import logging
 from pymongo import MongoClient
 
 
-blacklisted_bin = ("", "", "")
+blacklisted_bin = ("4867961220", "409595000", "486732703221")
 bin_whitelist = [""]
 
 
